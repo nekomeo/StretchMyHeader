@@ -24,9 +24,34 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yd8-V6-NMq">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="zUv-DV-C5F">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bg-header" translatesAutoresizingMaskIntoConstraints="NO" id="bEv-G9-rcg">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRb-ka-Rhg">
+                                            <rect key="frame" x="8" y="8" width="359" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailing" secondItem="bEv-G9-rcg" secondAttribute="trailing" id="6DX-xY-wTg"/>
+                                        <constraint firstItem="bEv-G9-rcg" firstAttribute="top" secondItem="zUv-DV-C5F" secondAttribute="top" id="GJ9-V0-xg2"/>
+                                        <constraint firstItem="bEv-G9-rcg" firstAttribute="leading" secondItem="zUv-DV-C5F" secondAttribute="leading" id="TEr-tn-9Vt"/>
+                                        <constraint firstItem="CRb-ka-Rhg" firstAttribute="leading" secondItem="zUv-DV-C5F" secondAttribute="leading" constant="8" id="THO-RS-Uwe"/>
+                                        <constraint firstItem="CRb-ka-Rhg" firstAttribute="top" secondItem="zUv-DV-C5F" secondAttribute="top" constant="8" id="WhW-FQ-QHe"/>
+                                        <constraint firstAttribute="bottom" secondItem="bEv-G9-rcg" secondAttribute="bottom" id="i5g-EX-aVv"/>
+                                        <constraint firstAttribute="trailing" secondItem="CRb-ka-Rhg" secondAttribute="trailing" constant="8" id="vhv-i6-Oez"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="60" id="uje-lm-7PN" customClass="NewsTableViewCell" customModule="StretchMyHeader" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="60"/>
+                                        <rect key="frame" x="0.0" y="72" width="375" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uje-lm-7PN" id="NkM-27-kZe">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
@@ -78,6 +103,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="SOM-P8-fwT"/>
                     <connections>
+                        <outlet property="currentDate" destination="CRb-ka-Rhg" id="gqE-lQ-PKL"/>
                         <outlet property="tableView" destination="Yd8-V6-NMq" id="b6F-kc-00B"/>
                     </connections>
                 </viewController>
@@ -104,4 +130,7 @@
             <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bg-header" width="621" height="412"/>
+    </resources>
 </document>

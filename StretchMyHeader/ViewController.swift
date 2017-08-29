@@ -15,6 +15,7 @@ class ViewController: UIViewController, UITableViewDataSource
     
     //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var currentDate: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,7 @@ class ViewController: UIViewController, UITableViewDataSource
         self.tableView.reloadData()
         
         newsItemSetup()
+        dateLabel()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -42,6 +44,16 @@ class ViewController: UIViewController, UITableViewDataSource
     override var prefersStatusBarHidden: Bool
     {
         return true
+    }
+    
+    func dateLabel()
+    {
+        let date = Date()
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.dateFormat = "MMM dd yyyy"
+
+        self.currentDate.text = dateFormatter.string(from: date)
     }
     
     //MARK: - NewsItem Helpers
