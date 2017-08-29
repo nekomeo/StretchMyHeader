@@ -11,11 +11,12 @@ import UIKit
 class NewsTableViewCell: UITableViewCell
 {
     //MARK: - Properties
-    var category: String = ""
+    var category: Category = .World
     {
         didSet
         {
-            categoryLabel.text = category
+            categoryLabel.text = category.name()
+            categoryLabel.textColor = category.color()
         }
     }
     var headline: String = ""
