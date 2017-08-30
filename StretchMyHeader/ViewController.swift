@@ -8,14 +8,14 @@
 
 import UIKit
 
-private let kTableHeaderHeight: CGFloat = 300
-
-class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDelegate
+class ViewController: UIViewController
 {
     //MARK: - Properties
     var newsItemsArray: [NewsItem] = []
+    fileprivate let kTableHeaderHeight: CGFloat = 300
+    fileprivate let kTableHeaderCutAway: CGFloat = 80
     var headerView: UIView!
-
+    var headerMaskLayer: CAShapeLayer!
     
     //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
@@ -29,18 +29,12 @@ class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDeleg
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.reloadData()
         
-        // kTableHeaderHeight Stuff
-        headerView = tableView.tableHeaderView
-        tableView.tableHeaderView = nil
-        
-        tableView.addSubview(headerView)
-        
-        tableView.contentInset = UIEdgeInsets(top: kTableHeaderHeight, left: 0, bottom: 0, right: 0)
-        tableView.contentOffset = CGPoint(x: 0, y: -kTableHeaderHeight)
-        updateHeaderView()
-        
+        // Methods
         newsItemSetup()
         dateLabel()
+        headerCutaway()
+        newEffectiveHeight()
+        headerViewSetup()
     }
     
     override func viewWillAppear(_ animated: Bool)
@@ -74,8 +68,6 @@ class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDeleg
     //MARK: - NewsItem Helpers
     func newsItemSetup()
     {
-        //append newsItemsArray here
-        
         let newsItem1 = NewsItem.init(category: .World, headline: "Climate change protests, divestments meet fossil fuels realities")
         let newsItem2 = NewsItem.init(category: .Europe, headline: "Scotland's 'Yes' leader says independence vote is 'once in a lifetime'")
         let newsItem3 = NewsItem.init(category: .MiddleEast, headline: "Airstrikes boost Islamic State, FBI director warns more hostages possible")
@@ -94,7 +86,10 @@ class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDeleg
         newsItemsArray.append(newsItem7)
         newsItemsArray.append(newsItem8)
     }
+}
 
+extension ViewController: UITableViewDataSource
+{
     //MARK: - ViewController Data Source
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -118,21 +113,63 @@ class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDeleg
         
         return cell
     }
+}
 
+extension ViewController
+{
     //MARK: - Headerview
+    func headerViewSetup()
+    {
+        // kTableHeaderHeight Stuff
+        headerView = tableView.tableHeaderView
+        tableView.tableHeaderView = nil
+        
+        tableView.addSubview(headerView)
+        
+        tableView.contentInset = UIEdgeInsets(top: kTableHeaderHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -kTableHeaderHeight)
+        updateHeaderView()
+    }
+    
     func updateHeaderView()
     {
-        var headerRect = CGRect(x: 0, y: -kTableHeaderHeight, width: tableView.bounds.width, height: kTableHeaderHeight)
+        let effectiveHeight = kTableHeaderHeight-kTableHeaderCutAway/2
+        var headerRect = CGRect(x: 0, y: -effectiveHeight, width: tableView.bounds.width, height: kTableHeaderHeight)
         
-        if tableView.contentOffset.y < -kTableHeaderHeight
+        if tableView.contentOffset.y < -effectiveHeight
         {
             headerRect.origin.y = tableView.contentOffset.y
-            headerRect.size.height = -tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y + kTableHeaderCutAway/2
         }
         
         headerView.frame = headerRect
+        
+        let path = UIBezierPath()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: 0))
+        path.addLine(to: CGPoint(x: headerRect.width, y: headerRect.height))
+        path.addLine(to: CGPoint(x: 0, y: headerRect.height-kTableHeaderCutAway))
+        headerMaskLayer?.path = path.cgPath
     }
     
+    func headerCutaway()
+    {
+        headerMaskLayer = CAShapeLayer()
+        headerMaskLayer.fillColor = UIColor.black.cgColor
+        
+        headerView.layer.mask = headerMaskLayer
+    }
+    
+    func newEffectiveHeight()
+    {
+        let effectiveHeight = kTableHeaderHeight-kTableHeaderCutAway/2
+        tableView.contentInset = UIEdgeInsets(top: effectiveHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -effectiveHeight)
+    }
+}
+
+extension ViewController: UIScrollViewDelegate
+{
     //MARK: - Scroll View
     func scrollViewDidScroll(_ scrollView: UIScrollView)
     {
