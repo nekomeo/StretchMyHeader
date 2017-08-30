@@ -8,10 +8,14 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDataSource
+private let kTableHeaderHeight: CGFloat = 300
+
+class ViewController: UIViewController, UITableViewDataSource, UIScrollViewDelegate
 {
     //MARK: - Properties
     var newsItemsArray: [NewsItem] = []
+    var headerView: UIView!
+
     
     //MARK: - Outlets
     @IBOutlet weak var tableView: UITableView!
@@ -20,9 +24,20 @@ class ViewController: UIViewController, UITableViewDataSource
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        self.tableView.estimatedRowHeight = 70
-        self.tableView.rowHeight = UITableViewAutomaticDimension
-        self.tableView.reloadData()
+        
+        tableView.estimatedRowHeight = 70
+        tableView.rowHeight = UITableViewAutomaticDimension
+        tableView.reloadData()
+        
+        // kTableHeaderHeight Stuff
+        headerView = tableView.tableHeaderView
+        tableView.tableHeaderView = nil
+        
+        tableView.addSubview(headerView)
+        
+        tableView.contentInset = UIEdgeInsets(top: kTableHeaderHeight, left: 0, bottom: 0, right: 0)
+        tableView.contentOffset = CGPoint(x: 0, y: -kTableHeaderHeight)
+        updateHeaderView()
         
         newsItemSetup()
         dateLabel()
@@ -104,6 +119,24 @@ class ViewController: UIViewController, UITableViewDataSource
         return cell
     }
 
-
+    //MARK: - Headerview
+    func updateHeaderView()
+    {
+        var headerRect = CGRect(x: 0, y: -kTableHeaderHeight, width: tableView.bounds.width, height: kTableHeaderHeight)
+        
+        if tableView.contentOffset.y < -kTableHeaderHeight
+        {
+            headerRect.origin.y = tableView.contentOffset.y
+            headerRect.size.height = -tableView.contentOffset.y
+        }
+        
+        headerView.frame = headerRect
+    }
+    
+    //MARK: - Scroll View
+    func scrollViewDidScroll(_ scrollView: UIScrollView)
+    {
+        updateHeaderView()
+    }
 }
 

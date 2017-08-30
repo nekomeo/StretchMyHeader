@@ -90,6 +90,7 @@
                                 </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="BYZ-38-t0r" id="1Ia-cW-zAY"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="yRk-kX-go1"/>
                                 </connections>
                             </tableView>
                         </subviews>
@@ -104,6 +105,7 @@
                     <navigationItem key="navigationItem" id="SOM-P8-fwT"/>
                     <connections>
                         <outlet property="currentDate" destination="CRb-ka-Rhg" id="gqE-lQ-PKL"/>
+                        <outlet property="headerView" destination="zUv-DV-C5F" id="JiX-Hp-NWZ"/>
                         <outlet property="tableView" destination="Yd8-V6-NMq" id="b6F-kc-00B"/>
                     </connections>
                 </viewController>
